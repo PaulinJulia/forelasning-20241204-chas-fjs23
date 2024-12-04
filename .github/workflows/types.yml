@@ -1,0 +1,33 @@
+name: Check TypeScript
+
+on:
+  push:
+    paths:
+      - "reseplanerare/client/**"
+  pull_request:
+    paths:
+      - "reseplanerare/client/**"
+
+jobs:
+  type-check:
+    name: TypeScript Type Check
+    runs-on: ubuntu-latest
+
+    steps:
+    # Steg 1: Checka ut koden
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Steg 2: Installera Node.js
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18 # Ändra till din Node.js-version om nödvändigt
+
+    # Steg 3: Installera beroenden
+    - name: Install dependencies
+      run: npm install
+
+    # Steg 4: Kör TypeScript-kompilering
+    - name: Run TypeScript Compiler
+      run: npx tsc
