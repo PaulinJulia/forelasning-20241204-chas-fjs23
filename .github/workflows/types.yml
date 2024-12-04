@@ -1,6 +1,5 @@
 name: Types
 
-# Client Lint / Run ESLint for client (pull_request)
 on:
   push:
     paths:
