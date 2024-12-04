@@ -1,5 +1,6 @@
-name: Check TypeScript
+name: Types
 
+# Client Lint / Run ESLint for client (pull_request)
 on:
   push:
     paths:
@@ -9,25 +10,27 @@ on:
       - "reseplanerare/client/**"
 
 jobs:
-  type-check:
-    name: TypeScript Type Check
+  lint:
+    name: Run Types for client
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: reseplanerare/client
+
     steps:
-    # Steg 1: Checka ut koden
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    # Steg 2: Installera Node.js
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18 # Ändra till din Node.js-version om nödvändigt
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: reseplanerare/client/package-lock.json
 
-    # Steg 3: Installera beroenden
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm ci
 
-    # Steg 4: Kör TypeScript-kompilering
-    - name: Run TypeScript Compiler
-      run: npx tsc
+      - name: Run Types
+        run: npx tsc --noEmit
